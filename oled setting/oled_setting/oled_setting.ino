@@ -29,6 +29,7 @@ bool inMenu8 = false;
 bool inMenu9 = false;
 bool inMenu10 = false;
 bool inMenu11 = false;
+bool inMenu12 = false;
 bool tone1 = false;
 bool isAlarmPlaying = false;
 bool servoMoving = false;
@@ -39,15 +40,15 @@ bool servoAt90 = false;
 unsigned long alarmStartTime = 0;
 #define alarm1  "NSAIDs"
 #define alarm2  "Acetaminophen"
-#define alarm3  "Opioid Analgesics"
-#define alarm4  "Muscle Relaxants"
-const char *currentAlarmText = "NSAIDs";
+#define alarm3  "Analgesics"
+#define alarm4  "Relaxants"
+const char *currentAlarmText = "NSAIDs";   //==(alarm1)
         
-int a,b,c,d,e,f,g,h;
 
 int Hrs = 12;
 int Min = 0;
-int tostop = 40;
+int tostop = 5;  //min's
+int M1,M2,M3,M4,H1,H2,H3,H4;
 
 
 const int ics7447_count = 4;
@@ -136,7 +137,7 @@ void loop() {
 
 
 
-  if (currentMillis - prevMinuteMillis >= 100) { // One minute has elapsed
+  if (currentMillis - prevMinuteMillis >= 60000) { // One minute has elapsed
     prevMinuteMillis = currentMillis;
       Min++;
   if (Min == 60) {
@@ -170,33 +171,33 @@ void loop() {
   display.print(Min);
   }
 
-  if (Hrs==a && Min==b){
+  if (Hrs==H1 && Min==M1){
     changePosition(1);
     
   }
-  if (Hrs==c && Min==d){
+  if (Hrs==H2 && Min==M2){
     changePosition(2);
   }
-  if (Hrs==e && Min==f){
+  if (Hrs==H3 && Min==M3){
     changePosition(3);
   }
-  if (Hrs==g && Min==h){
+  if (Hrs==H4 && Min==M4){
     changePosition(4);
   }
 
- if (Hrs == a && Min == b+tostop) {
+ if (Hrs == H1 && Min == M1+tostop) {
     tone1 = false;
     handleAlarmScenario(alarm2);
   }
-  if (Hrs == c && Min == d+tostop) {
+  if (Hrs == H2 && Min == M2+tostop) {
     tone1 = false;
     handleAlarmScenario(alarm3);
   }
-  if (Hrs == e && Min == f+tostop) {
+  if (Hrs == H3 && Min == M3+tostop) {
     tone1 = false;
     handleAlarmScenario(alarm4);
   }
-  if (Hrs == g && Min == h+tostop) {
+  if (Hrs == H4 && Min == M4+tostop) {
     tone1 = false;
     handleAlarmScenario(alarm1);
   }
@@ -225,6 +226,7 @@ void loop() {
         inMenu9 = false;
         inMenu10 = false;
         inMenu11 = false;
+        inMenu12 = false;
             if (cursor == 0) {
               showTime();
             } else if (cursor == 1) {
@@ -232,7 +234,7 @@ void loop() {
             } else if (cursor == 2) {
             showTxSettings();
             } else if (cursor == 3) {
-              // Add your code for the "Alarms" option here
+            showAlarmSettings();
             }
           }
         else if (inMenu1 == true){
@@ -244,11 +246,40 @@ void loop() {
         }
         else if (inMenu3 == true){
         }
-        else if (inMenu4 == true){        
+        else if (inMenu4 == true){ 
+          showTxSettings2();       
+          inMenu5 =true;
+          inMenu4 = false;
         }
         else if (inMenu5 == true){
+          showTxSettings3();       
+          inMenu6 =true;
+          inMenu5 = false;
         }
-        else if (inMenu6 == true){        
+        else if (inMenu6 == true){ 
+          showTxSettings4();       
+          inMenu7 =true;
+          inMenu6 = false;       
+        }
+        else if (inMenu7 == true){
+          showTxSettings5();       
+          inMenu8 =true;
+          inMenu7 = false;
+        }
+        else if (inMenu8 == true){  
+          showTxSettings6();       
+          inMenu9 =true;
+          inMenu8 = false;      
+        }
+        else if (inMenu9 == true){
+          showTxSettings7();       
+          inMenu10 =true;
+          inMenu9 = false;
+        }
+        else if (inMenu10 == true){ 
+          showTxSettings8();       
+          inMenu11 =true;
+          inMenu10 = false;       
         }
         else{
         }
@@ -268,6 +299,30 @@ void loop() {
         }
         else if (inMenu4 == true){
         upHrs1();
+        }
+        else if (inMenu5 == true){
+        upMin1();
+        }
+        else if (inMenu6 == true){
+        upHrs2();
+        }
+        else if (inMenu7 == true){
+        upMin2();
+        }
+        else if (inMenu8 == true){
+        upHrs3();
+        }
+        else if (inMenu9 == true){
+        upMin3();
+        }
+        else if (inMenu10 == true){
+        upHrs4();
+        }
+        else if (inMenu11 == true){
+        upMin4();
+        }
+        else if (inMenu12 == true){
+      
         }
         else{
         display.clearLine(2);
@@ -290,6 +345,30 @@ void loop() {
         else if (inMenu4 == true){
         downHrs1();
         }
+        else if (inMenu5 == true){
+        downMin1();
+        }
+        else if (inMenu6 == true){
+        downHrs2();
+        }
+        else if (inMenu7 == true){
+        downMin2();
+        }
+        else if (inMenu8 == true){
+        downHrs3();
+        }
+        else if (inMenu9 == true){
+        downMin3();
+        }
+        else if (inMenu10 == true){
+        downHrs4();
+        }
+        else if (inMenu11 == true){
+        downMin4();
+        }
+        else if (inMenu12 == true){
+        
+        }
         else{
         display.clearLine(4);
         display.setCursor(0, 4);
@@ -309,6 +388,7 @@ void loop() {
         inMenu9 = false;
         inMenu10 = false;
         inMenu11 = false;
+        inMenu12 = false;
         showMenu();
         }
         else { 
@@ -406,7 +486,8 @@ void showTimeSettings2() {
   display.setCursor(6, 3); // Set the position for displaying time on OLED
   display.print("  ");
   display.setCursor(9, 3); // Set the position for displaying time on OLED
-  display.print("__");
+  display.print("--");
+  display.clearLine(6);
   inMenu3 = true;
 
   }
@@ -421,7 +502,9 @@ void showTimeSettings() {
   display.setCursor(6, 2); // Set the position for displaying time on OLED
   display.print(Hrs);
   display.setCursor(6, 3); // Set the position for displaying time on OLED
-  display.print("__");
+  display.print("--");
+  display.setCursor(0, 6); // Set the position for displaying time on OLED
+  display.print("> press Set");
   inMenu2 = true;
   }
 
@@ -436,10 +519,11 @@ void showTxSettings() {
   display.setCursor(0, 4);
   display.print("Time: ");
   display.setCursor(6, 4); // Set the position for displaying time on OLED
-  display.print(a);
+  display.print(H1);
   display.setCursor(6, 5); // Set the position for displaying time on OLED
-  display.print("__");
-
+  display.print("--");
+  display.setCursor(0, 6); // Set the position for displaying time on OLED
+  display.print("> press Set");
 
   inMenu4 = true;
   }
@@ -447,26 +531,125 @@ void showTxSettings() {
 
 
 void showTxSettings2(){
-  
-}
+  display.setCursor(8, 4); // Set the position for displaying time on OLED
+  display.print(":");
+  display.setCursor(6, 4); // Set the position for displaying time on OLED
+  display.print(H1);
+  display.setCursor(9, 4); // Set the position for displaying time on OLED
+  display.print(M1);
+  display.setCursor(6, 5); // Set the position for displaying time on OLED
+  display.print("  ");
+  display.setCursor(9, 5); // Set the position for displaying time on OLED
+  display.print("--");
+  display.setCursor(0, 6); // Set the position for displaying time on OLED
+  display.print("> press Set");
+
+  inMenu5 = true;
+ }
 void showTxSettings3(){
-  
-}
+  display.clearLine(2);
+  display.clearLine(4);
+  display.clearLine(5);
+  display.clearLine(6);
+  display.setCursor(0, 2);
+  display.print(alarm2);
+  display.print(" Setting");
+  display.setCursor(0, 4);
+  display.print("Time: ");
+  display.setCursor(6, 4); // Set the position for displaying time on OLED
+  display.print(H2);
+  display.setCursor(6, 5); // Set the position for displaying time on OLED
+  display.print("--");
+  display.setCursor(0, 6); // Set the position for displaying time on OLED
+  display.print("> press Set");
+
+  inMenu6 = true;
+ }
 void showTxSettings4(){
+  display.setCursor(8, 4); // Set the position for displaying time on OLED
+  display.print(":");
+  display.setCursor(6, 4); // Set the position for displaying time on OLED
+  display.print(H2);
+  display.setCursor(9, 4); // Set the position for displaying time on OLED
+  display.print(M2);
+  display.setCursor(6, 5); // Set the position for displaying time on OLED
+  display.print("  ");
+  display.setCursor(9, 5); // Set the position for displaying time on OLED
+  display.print("--");
+  display.setCursor(0, 6); // Set the position for displaying time on OLED
+  display.print("> press Set");
 
-}
+  inMenu7 = true;
+ }
 void showTxSettings5(){
+  display.clearLine(2);
+  display.clearLine(4);
+  display.clearLine(5);
+  display.clearLine(6);
+  display.setCursor(0, 2);
+  display.print(alarm3);
+  display.print(" Setting");
+  display.setCursor(0, 4);
+  display.print("Time: ");
+  display.setCursor(6, 4); // Set the position for displaying time on OLED
+  display.print(H3);
+  display.setCursor(6, 5); // Set the position for displaying time on OLED
+  display.print("--");
+  display.setCursor(0, 6); // Set the position for displaying time on OLED
+  display.print("> press Set");
 
-}
+  inMenu8 = true;
+ }
 void showTxSettings6(){
+  display.setCursor(8, 4); // Set the position for displaying time on OLED
+  display.print(":");
+  display.setCursor(6, 4); // Set the position for displaying time on OLED
+  display.print(H3);
+  display.setCursor(9, 4); // Set the position for displaying time on OLED
+  display.print(M3);
+  display.setCursor(6, 5); // Set the position for displaying time on OLED
+  display.print("  ");
+  display.setCursor(9, 5); // Set the position for displaying time on OLED
+  display.print("--");
+  display.setCursor(0, 6); // Set the position for displaying time on OLED
+  display.print("> press Set");
 
-}
+  inMenu9 = true;
+ }
 void showTxSettings7(){
+  display.clearLine(2);
+  display.clearLine(4);
+  display.clearLine(5);
+  display.clearLine(6);
+  display.setCursor(0, 2);
+  display.print(alarm4);
+  display.print(" Setting");
+  display.setCursor(0, 4);
+  display.print("Time: ");
+  display.setCursor(6, 4); // Set the position for displaying time on OLED
+  display.print(H4);
+  display.setCursor(6, 5); // Set the position for displaying time on OLED
+  display.print("--");
+  display.setCursor(0, 6); // Set the position for displaying time on OLED
+  display.print("> press Set");
 
-}
+  inMenu10 = true;
+ }
 void showTxSettings8(){
+  display.setCursor(8, 4); // Set the position for displaying time on OLED
+  display.print(":");
+  display.setCursor(6, 4); // Set the position for displaying time on OLED
+  display.print(H4);
+  display.setCursor(9, 4); // Set the position for displaying time on OLED
+  display.print(M4);
+  display.setCursor(6, 5); // Set the position for displaying time on OLED
+  display.print("  ");
+  display.setCursor(9, 5); // Set the position for displaying time on OLED
+  display.print("--");
+  display.clearLine(6);
 
-}
+  inMenu11 = true;
+ }
 
 
 
@@ -474,9 +657,38 @@ void showAlarmSettings() {
   display.clearDisplay();
   display.clearLine(0);
   display.setCursor(0, 0);
-  display.print(menu[cursor]);
-
-  inMenu5 = true;
+  display.print(alarm1);
+  display.setCursor(8, 1); // Set the position for displaying time on OLED
+  display.print(":");
+  display.setCursor(6, 1); // Set the position for displaying time on OLED
+  display.print(H1);
+  display.setCursor(9, 1); // Set the position for displaying time on OLED
+  display.print(M1);
+  display.setCursor(0, 2);
+  display.print(alarm2);
+  display.setCursor(8, 3); // Set the position for displaying time on OLED
+  display.print(":");
+  display.setCursor(6, 3); // Set the position for displaying time on OLED
+  display.print(H2);
+  display.setCursor(9, 3); // Set the position for displaying time on OLED
+  display.print(M2);
+  display.setCursor(0, 4);
+  display.print(alarm3);
+  display.setCursor(8, 5); // Set the position for displaying time on OLED
+  display.print(":");
+  display.setCursor(6, 5); // Set the position for displaying time on OLED
+  display.print(H3);
+  display.setCursor(9, 5); // Set the position for displaying time on OLED
+  display.print(M3);
+  display.setCursor(0, 6);
+  display.print(alarm4);
+  display.setCursor(8, 7); // Set the position for displaying time on OLED
+  display.print(":");
+  display.setCursor(6, 7); // Set the position for displaying time on OLED
+  display.print(H4);
+  display.setCursor(9, 7); // Set the position for displaying time on OLED
+  display.print(M4);
+  inMenu12 = true;
   }
 
 
@@ -544,75 +756,75 @@ void moveServo() {
 
 
 void upMin1() {
-  b++;
+  M1++;
   inMenu5 = false;
-  if (b == 60) {
-    b = 0;
+  if (M1 == 60) {
+    M1 = 0;
   }
   showTxSettings2();
-}
+ } 
 void downMin1() {
-  b--;
+  M1--;
   inMenu5 = false;
-  if (b == -1) {
-    b = 59;
+  if (M1 == -1) {
+    M1 = 59;
   }
   showTxSettings2();
-}
+ }
 
 void upHrs1() {
   inMenu4 = false;
-  a++;
-    if (a == 24) {
-    a = 0;
+  H1++;
+    if (H1 == 24) {
+    H1 = 0;
     }
   showTxSettings();
-}
+ }
 
 void downHrs1() {
   inMenu4 = false;
-  a--;
-    if (a == -1) {
-    a = 23;
+  H1--;
+    if (H1 == -1) {
+    H1 = 23;
   }
   showTxSettings();
-}
+ }
 
 
 void upMin2() {
-  d++;
+  M2++;
   inMenu7 = false;
-  if (d == 60) {
-    d = 0;
+  if (M2 == 60) {
+    M2 = 0;
   }
   showTxSettings4();
-}
+ }
 void downMin2() {
-  d--;
+  M2--;
   inMenu7 = false;
-  if (d == -1) {
-    d = 59;
+  if (M2 == -1) {
+    M2 = 59;
   }
   showTxSettings4();
-}
+ }
 
 void upHrs2() {
   inMenu6 = false;
-  c++;
-    if (c == 24) {
-    c = 0;
+  H2++;
+    if (H2 == 24) {
+    H2 = 0;
     }
   showTxSettings3();
-}
+ }
 
 void downHrs2() {
   inMenu6 = false;
-  c--;
-    if (c == -1) {
-    c = 23;
+  H2--;
+    if (H2 == -1) {
+    H2 = 23;
   }
   showTxSettings3();
-}
+ }
 
 
 
@@ -621,74 +833,74 @@ void downHrs2() {
 
 
 void upMin3() {
-  f++;
+  M3++;
   inMenu9 = false;
-  if (f == 60) {
-    f = 0;
+  if (M3 == 60) {
+    M3 = 0;
   }
   showTxSettings6();
-}
+ }
 void downMin3() {
-  f--;
+  M3--;
   inMenu9 = false;
-  if (f == -1) {
-    f = 59;
+  if (M3 == -1) {
+    M3 = 59;
   }
   showTxSettings6();
-}
+ }
 
 void upHrs3() {
   inMenu8 = false;
-  e++;
-    if (e == 24) {
-    e = 0;
+  H3++;
+    if (H3 == 24) {
+    H3 = 0;
     }
   showTxSettings5();
-}
+ }
 
 void downHrs3() {
   inMenu8 = false;
-  e--;
-    if (e == -1) {
-    e = 23;
+  H3--;
+    if (H3 == -1) {
+    H3 = 23;
   }
   showTxSettings5();
-}
+ }
 
 
 
 
 void upMin4() {
-  g++;
+  M4++;
   inMenu11 = false;
-  if (g == 60) {
-    g = 0;
+  if (M4 == 60) {
+    M4 = 0;
   }
   showTxSettings8();
-}
+ }
 void downMin4() {
-  g--;
+  M4--;
   inMenu11 = false;
-  if (g == -1) {
-    g = 59;
+  if (M4 == -1) {
+    M4 = 59;
   }
   showTxSettings8();
-}
+ }
 
 void upHrs4() {
   inMenu10 = false;
-  h++;
-    if (h == 24) {
-    h = 0;
+  H4++;
+    if (H4 == 24) {
+    H4 = 0;
     }
   showTxSettings7();
-}
+ }
 
 void downHrs4() {
   inMenu10 = false;
-  h--;
-    if (h == -1) {
-    h = 23;
+  H4--;
+    if (H4 == -1) {
+    H4 = 23;
   }
   showTxSettings7();
-}
+ }
