@@ -1,7 +1,7 @@
 #include <Wire.h>
 #include <LiquidCrystal_I2C.h>
 
-const byte inputPin = 2;  // Input pin for the frequency signal
+const byte inputPin = 3;  // Input pin for the frequency signal
 const byte voltagePin = A0; // Analog pin for voltage measurement
 const byte relayPin = 2;   // Pin connected to the relay module
 
